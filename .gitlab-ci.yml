@@ -10,4 +10,5 @@ build-deb:
     - mkdir build
     - mv ../eat-my-sms*.deb build/
   artifacts:
-    - build/*
+    paths:
+      - build/*
