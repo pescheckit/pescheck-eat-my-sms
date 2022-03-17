@@ -8,5 +8,5 @@ Rules-Requires-Root: no
 
 Package: eat-my-sms
 Architecture: all
-Depends: python3 (>=3.5.0), ${misc:Depends}
+Depends: gnokii (>= 0.6), python3 (>=3.5.0), ${misc:Depends}
 Description: Simple automated SMS forwarder
