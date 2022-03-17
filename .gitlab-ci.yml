@@ -5,7 +5,7 @@ build-deb:
   image: debian
   stage: build
   script:
-    - apt install -y debhelper-compat config-package-dev
+    - apt update && apt install -y debhelper-compat config-package-dev
     - dpkg-buildpackage -uc -us
     - mkdir build
     - mv ../eat-my-sms*.deb build/
