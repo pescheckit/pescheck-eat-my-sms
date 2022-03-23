@@ -138,16 +138,20 @@ class Modem:
         messages = re.split(r'\d+\. inbox message.*[\n]', cmd[0], flags=re.M | re.I)
         for msg in messages:
             if msg:
-                date = re.search(r'^date/time:(.*)$', msg, re.M | re.I).group(1).strip()
-                sender = re.search(r'^sender:\s+(\+\d+)', msg, re.M | re.I).group(1).strip()
-                smsc = re.search(r'msg center:\s+(\+\d+)', msg, re.M | re.I).group(1).strip()
-                body = re.split(r'^text:[\n]', msg, flags=re.M | re.I)[1].strip()
-                sms.append({
-                    'date': date,
-                    'sender': sender,
-                    'smsc': smsc,
-                    'body': body,
-                })
+                data = {}
+
+                date = re.search(r'^date/time:(.*)$', msg, re.M | re.I)
+                if date:
+                    data['date'] = date.group(1).strip()
+                sender = re.search(r'^sender:\s+(\+\d+)', msg, re.M | re.I)
+                if sender:
+                    data['sender'] = sender.group(1).strip()
+                smsc = re.search(r'msg center:\s+(\+\d+)', msg, re.M | re.I)
+                if smsc:
+                    data['smsc'] = smsc.group(1).strip()
+                data['body'] = re.split(r'^text:[\n]', msg, flags=re.M | re.I)[1].strip()
+                
+                sms.append(data)
 
         return sms
 
