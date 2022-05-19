@@ -5,7 +5,7 @@ stages:
   image: debian
   stage: build
   script:
-    - apt update && apt install -y debhelper-compat config-package-dev python3-pip
+    - apt update && apt install -y debhelper-compat config-package-dev python3-pip $EXTRA_PKG
     - dpkg-buildpackage -uc -us --host-arch $ARCH
     - mv ../*.deb ./
   artifacts:
@@ -21,3 +21,4 @@ build-arm64:
   <<: *build
   variables:
     ARCH: arm64
+    EXTRA_PKG: binutils-aarch64-linux-gnu
