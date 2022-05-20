@@ -8,14 +8,21 @@ To build this project as a Debian package, run the following commands on a Debia
 
 ```console
 # apt install debhelper-compat config-package-dev
-# dpkg-buildpackage -uc -us
+$ dpkg-buildpackage -uc -us
 ```
 
 The `.deb` file will then be created in the parent folder.
 To clean the generated files after building the package, run the following command instead:
 
 ```console
-# dpkg-buildpackage -uc -us --post-clean
+$ dpkg-buildpackage -uc -us --post-clean
+```
+
+By default, the package is built for the architecture of the machine you are building on.
+If you want to build for a different architecture, for example `arm64`, use the following command:
+
+```console
+$ dpkg-buildpackage -uc -us --host-arch arm64
 ```
 
 ## Installing
