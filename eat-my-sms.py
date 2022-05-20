@@ -181,6 +181,7 @@ def main():
         REGISTRY.unregister(coll)
 
     # Register new collectors
+    global PROM_RECEIVED_SMS, PROM_WEBHOOK_FAILED
     PROM_RECEIVED_SMS = Counter('eatmysms_sms_received_total', 'Number of SMSes received', ['port'])
     PROM_RECEIVED_SMS.labels(args.port)
     PROM_WEBHOOK_FAILED = Counter('eatmysms_webhook_failed_total', 'Number of webhook call failures', ['port'])
