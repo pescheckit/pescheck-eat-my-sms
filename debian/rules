@@ -3,7 +3,7 @@
 	dh $@
 
 execute_after_dh_installsystemd:
-	dh_installsystemd --name pushprox
+	dh_installsystemd --name pushprox-client
 	dh_installsysusers
 
 execute_before_dh_install:
