@@ -43,7 +43,7 @@ if [ ! -e $TLS_DIR ]; then
     openssl req -x509 -sha256 -newkey rsa:4096 -keyout $TLS_DIR/ca.key -out $TLS_DIR/ca.crt -days 365 -nodes -subj '/CN=eat-my-sms CA'
     openssl req -new -newkey rsa:4096 -keyout $TLS_DIR/tls.key -out $TLS_DIR/tls.csr -nodes -subj '/CN=eat-my-sms'
     openssl x509 -req -sha256 -days 365 -in $TLS_DIR/tls.csr -CA $TLS_DIR/ca.crt -CAkey $TLS_DIR/ca.key -set_serial 02 -out $TLS_DIR/tls.crt
-    chown -R eat-my-sms:eat-my-sms $TLS_DIR
+    chown -R pushprox:pushprox $TLS_DIR
 fi
 
 # dh_installdeb will replace this with shell code automatically
