@@ -53,7 +53,7 @@ def send_message(message):
     except urllib.error.URLError as err:
         logging.error('Could not send message: {}'.format(message))
         logging.exception(err)
-        PROM_WEBHOOK_FAILED.labels(CONFIG['port']).inc()
+        PROM_WEBHOOK_FAILED.labels(CONFIG['port'], CONFIG['webhook_extra'], CONFIG['webhook_url']).inc()
 
 class Modem:
     def __init__(self, port):
@@ -147,7 +147,7 @@ class Modem:
         messages = re.split(r'\d+\. inbox message.*[\n]', cmd[0], flags=re.M | re.I)
         for msg in messages:
             if msg:
-                PROM_RECEIVED_SMS.labels(CONFIG['port']).inc()
+                PROM_RECEIVED_SMS.labels(CONFIG['port'], CONFIG['webhook_extra'], CONFIG['webhook_url']).inc()
                 data = {}
 
                 date = re.search(r'^date/time:(.*)$', msg, re.M | re.I)
@@ -182,10 +182,10 @@ def main():
 
     # Register new collectors
     global PROM_RECEIVED_SMS, PROM_WEBHOOK_FAILED
-    PROM_RECEIVED_SMS = Counter('eatmysms_sms_received_total', 'Number of SMSes received', ['port'])
-    PROM_RECEIVED_SMS.labels(args.port)
-    PROM_WEBHOOK_FAILED = Counter('eatmysms_webhook_failed_total', 'Number of webhook call failures', ['port'])
-    PROM_WEBHOOK_FAILED.labels(args.port)
+    PROM_RECEIVED_SMS = Counter('eatmysms_sms_received_total', 'Number of SMSes received', ['port', 'extra', 'webhook_url'])
+    PROM_RECEIVED_SMS.labels(args.port, CONFIG['webhook_extra'], CONFIG['webhook_url'])
+    PROM_WEBHOOK_FAILED = Counter('eatmysms_webhook_failed_total', 'Number of webhook call failures', ['port', 'extra', 'webhook_url'])
+    PROM_WEBHOOK_FAILED.labels(args.port, CONFIG['webhook_extra'], CONFIG['webhook_url'])
 
     if CONFIG['metrics_port']:
         logging.info('Starting metrics server at 127.0.0.1:{}'.format(CONFIG['metrics_port']))
