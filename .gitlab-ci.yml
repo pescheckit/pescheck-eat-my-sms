@@ -1,5 +1,6 @@
 stages:
   - build
+  - test
 
 .build: &build
   image: debian
@@ -22,3 +23,11 @@ build-arm64:
   variables:
     ARCH: arm64
     EXTRA_PKG: binutils-aarch64-linux-gnu
+
+test-install:
+  image: debian
+  stage: test
+  dependencies:
+    - build-amd64
+  script:
+    - dpkg -i eat-my-sms_*_amd64.deb
