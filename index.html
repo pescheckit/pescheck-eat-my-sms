@@ -9,7 +9,7 @@
 curl -fsSL https://pescheckit.github.io/eat-my-sms/apt/public.key | sudo gpg --dearmor -o /etc/apt/keyrings/eat-my-sms.gpg
 
 # Add repository
-echo "deb [signed-by=/etc/apt/keyrings/eat-my-sms.gpg] https://pescheckit.github.io/eat-my-sms/apt stable main" | \
+echo "deb [arch=amd64,arm64 signed-by=/etc/apt/keyrings/eat-my-sms.gpg] https://pescheckit.github.io/eat-my-sms/apt stable main" | \
   sudo tee /etc/apt/sources.list.d/eat-my-sms.list
 
 # Install
