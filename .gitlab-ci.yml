@@ -60,14 +60,17 @@ deploy-packages:
     - build-amd64
     - build-arm64
   script:
-    # Upload packages
+    # Upload packages using generic package repository (Debian registry requires premium)
     - |
       for DEB in *.deb; do
-        # Extract architecture from filename (e.g., eat-my-sms_0.9.0_amd64.deb -> amd64)
+        # Extract version and architecture from filename
+        VERSION=$(echo $DEB | sed -E 's/.*_([0-9]+\.[0-9]+\.[0-9]+)_.*/\1/')
         ARCH=$(echo $DEB | sed -E 's/.*_([^_]+)\.deb$/\1/')
-        echo "Uploading $DEB (arch: $ARCH)..."
-        curl --header "JOB-TOKEN: ${CI_JOB_TOKEN}" --upload-file ${DEB} \
-          "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/debian/${DEB}?distribution=stable&component=main&architecture=${ARCH}"
+        echo "Uploading $DEB (version: $VERSION, arch: $ARCH)..."
+
+        curl --header "JOB-TOKEN: ${CI_JOB_TOKEN}" \
+             --upload-file ${DEB} \
+             "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/generic/eat-my-sms/${VERSION}/${DEB}"
       done
   rules:
     - if: $CI_COMMIT_TAG  # Only upload on tagged releases
