@@ -4,44 +4,44 @@ Hash: SHA512
 Origin: Eat My SMS
 Label: eat-my-sms
 Codename: stable
-Date: Wed, 04 Mar 2026 13:55:17 UTC
+Date: Wed, 04 Mar 2026 13:55:32 UTC
 Architectures: amd64 arm64
 Components: main
 Description: Eat My SMS Package Repository
 MD5Sum:
- b3d5492ddbda6d629d3a48c1751e4397 566 main/binary-amd64/Packages
- f09f37eb0bd08c7c64cfcefb8bb4aee7 410 main/binary-amd64/Packages.gz
+ 2c4d4158ff4a5b71648d820d2891c846 566 main/binary-amd64/Packages
+ 80dad5ca1c06969e16bb951dd667aebd 411 main/binary-amd64/Packages.gz
  ac041ae1d272d66d2b7a29ed11161f88 116 main/binary-amd64/Release
- 7dc7e4195583dc845fb4c56d579c64d3 566 main/binary-arm64/Packages
- 9169f493d736e7a206271ea2c4843f1b 412 main/binary-arm64/Packages.gz
+ 38a3ef0ff54633d1a2b52606c3a20a45 566 main/binary-arm64/Packages
+ a37d82599c270fcd6d853ff5375daf66 412 main/binary-arm64/Packages.gz
  0f2fdcf4bb88be67cd36131aa45f5d12 116 main/binary-arm64/Release
 SHA1:
- c402048d51e4b43fbcbb3159efa063e694400645 566 main/binary-amd64/Packages
- 6a85ea011f5833f37435681a7926ce165a43ce00 410 main/binary-amd64/Packages.gz
+ 5004bb1fb18ac0328cd0e58a83536d94e2c513e6 566 main/binary-amd64/Packages
+ 8b269cfffb50dfbb756303e83bc025a0d075fc96 411 main/binary-amd64/Packages.gz
  15565d2e3240e4258287f25cfca9f8609be6c914 116 main/binary-amd64/Release
- 86ffe8ee649e36ff87b403ecc0d6f2cfd608ce15 566 main/binary-arm64/Packages
- c3ad3a2f09213bfd41b369eaeda9fe166a053057 412 main/binary-arm64/Packages.gz
+ 7d582d345b92261d140c788d4ce823a9207d34e3 566 main/binary-arm64/Packages
+ 7db395f405f462f1d540b16ab0be07ef78e30821 412 main/binary-arm64/Packages.gz
  d917cd80c33e0a9a4b04e53c2c350015f57d30dd 116 main/binary-arm64/Release
 SHA256:
- 15eeb2480e5de1af457eb84fec113b18c8eadd6529a75a57e5f63f78e666d159 566 main/binary-amd64/Packages
- 4ef6017a60d5ad21dc4148b4198a8c2fc7a5d08477aa3bfb06455cb118ab5036 410 main/binary-amd64/Packages.gz
+ 8302861be678cc80098fd6a38c8652e692b3d35417f5974b0135f3652f3c1e7b 566 main/binary-amd64/Packages
+ 764899266860568c55a77bef9513d53259c478e472165438bd3b49025c6b84e5 411 main/binary-amd64/Packages.gz
  2ad29a432428275cf15b03f34a05f9d6594968b1c3811f7a74d2bdf2a7ba3b29 116 main/binary-amd64/Release
- 19f6437bb556b88250f15b4e0d7a0761c890bac502c8572604e72ecc2e74bfdf 566 main/binary-arm64/Packages
- e420216982d65f26bce47cce310eea80d1c08d479c10fc493552e287fc2a2f9a 412 main/binary-arm64/Packages.gz
+ a33e316543b4f2ec2ec13a3deb58684cb109a31da8374744a5b81b2b94f83dd5 566 main/binary-arm64/Packages
+ a4bfdc3aba05c2a7bd4dde67b3f12549c7e01957de239c22b558346dcd0843d6 412 main/binary-arm64/Packages.gz
  e8cf99e71ad135e22c8c12666e47e01cacdde446fd1902fd3b10b1507a4a6f46 116 main/binary-arm64/Release
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCgAdFiEETGCh7mMuezleOhCxHUyQfzn/sSEFAmmoOcUACgkQHUyQfzn/
-sSGnEBAAliCA54MPIKqK9QF7uxpNBhLCB6bcvjF02LDA3yeveeihmVg5M4g3hbB9
-5ppu4MUZa2W6Zj73gHKJltwnhVnTIaepT9h580ttoZGdJArlzNJ5FgoSWWBusgbn
-UD1Fa0WBpfnEqpbII2d4MRUD7Ziivjtx80b2mM6R7f2vgYIGbC0EdEoPV+eywKTQ
-/amd9SC4Q8dVkZSoyc8foBweFa2uW66tuRXekmnV67Sxxh1aDRZ3pPWEJqb4uPu9
-riyuSCsMcDjgCtf9FeM0Pe57jIbdRSitj4nV3Gpz/Dl7aW9Fis8jDWzQwPh1LFF7
-AwlmPyoWQAHCeG/YBJ4l+s+VYCdDexU75dnnw+ze887NMIHUbaR8wux+Fz/tz0Zv
-5Z9BmOE4ZEmZherTuRiLrLmkD2yYWc/cKpeM3OjJrcKF/xOnpo+YI0HwptqxmpCM
-aidTytPH5uETfwpS+FG9yJ1v/OeJbkRSy4bsPOl5Akn6xD+vHEMrN1lwYDl6wkFT
-dydODwjkoKlcX7RbNVfZpP7oNiUfnRg5lA5oo5QU3+xBZifgH9MianTB0BQWL01i
-Ll0eh3Bo4i4XXv3TIqPSeYUjiWmxFF6O/dzPV/9Xl0A9qnxOJ3BkvMiXr6WvW47p
-Srjmlx8DO62xPjPm25aM1FKY0ZnCFvxCDLrt2UFJ6hbYRlAgAyo=
-=DwNH
+iQIzBAEBCgAdFiEETGCh7mMuezleOhCxHUyQfzn/sSEFAmmoOdQACgkQHUyQfzn/
+sSEHZg//UAfIAK+I2Py+gGAQaUDi0DaZRBZF/ZfyO9kwvZmmXDabiOSZp61VtWSF
+rOBWEGEBqEMtzXg8aPstafHPz2zRxmMouytDkxCrNmpdmNfKS0ylvgAhCV7BqtAF
+6/9OLPfjC/LHhTsDNbi4iui++Iv0ZPXyuoVxemMQsjCKtWH0cK1iFKDC3aeWwwiv
+DGhWyMOAtoa915RUBULFg5ssi1ND25tHZAoWFMprf7kwAgkn9eYLQnzFaw+PEzZ7
+Yccq7ENBSaCTAEEnlYWQdhtTWrR7QjaHVhDBfkM8wihh/FYtExIVNUbQz4UDADm2
+VuHWxVckji2nulQBjp3nTGqxIQkbjAlEug0oIymtoBzXsnKepGCgYqchpQNA9GE3
+em9IEqrQae2lc+k7UnFsyRklqUH/CqmuvGHXhAjKd/QNKESQOTnzXzqufOYgptFf
+Wk6VdElm90EJ7Qq9MLY6E5OTtA8VIrSRN5xVZegzvvlSFr27pFlHZXaRNHQ/5B+P
+YVYFLOZthGTGqGFtpATDVnavH8xmfh6bMyl+HWZVN/gLGlv9y7tt/ZqPhtN9sp44
+z4h9rdxCJL4Y07U6CQilvbeXLVUZt6FlX8yfFjW6NLNX4GzGqCuW/3T34Y08y9d/
+5FFGwPzTT6ZRZEm/hdk2vwPhcnB/klY2ws4kJGRqzAXwJWLbHUY=
+=yjog
 -----END PGP SIGNATURE-----
