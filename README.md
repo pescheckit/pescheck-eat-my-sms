@@ -21,29 +21,37 @@ Tested with:
 
 ### From GitLab Package Registry
 
-```bash
-# Add repository
-echo "deb https://gitlab.pescheck.me/api/v4/projects/3/packages/debian stable main" | \
-  sudo tee /etc/apt/sources.list.d/eat-my-sms.list
+**1. Create a Personal Access Token** (if you don't have one):
+   - Go to: https://gitlab.pescheck.me/-/user_settings/personal_access_tokens
+   - Scopes: `read_api`
+   - Save the token
 
-# Configure authentication
-sudo tee /etc/apt/auth.conf.d/gitlab.conf > /dev/null <<EOF
-machine gitlab.pescheck.me
-login <your-username>
-password <your-personal-access-token>
-EOF
-sudo chmod 600 /etc/apt/auth.conf.d/gitlab.conf
+**2. Download the latest package:**
+
+```bash
+# Set your token
+export GITLAB_TOKEN="your-personal-access-token"
+
+# Download (replace VERSION and ARCH as needed)
+VERSION="1.0.3"
+ARCH="amd64"  # or "arm64"
+
+curl --header "PRIVATE-TOKEN: ${GITLAB_TOKEN}" \
+  "https://gitlab.pescheck.me/api/v4/projects/3/packages/generic/eat-my-sms/${VERSION}/eat-my-sms_${VERSION}_${ARCH}.deb" \
+  --output eat-my-sms_${VERSION}_${ARCH}.deb
 
 # Install
-sudo apt update
-sudo apt install eat-my-sms
+sudo dpkg -i eat-my-sms_${VERSION}_${ARCH}.deb
+sudo apt --fix-broken install
 ```
+
+**Latest version:** Check https://gitlab.pescheck.me/pescheck/eat-my-sms/-/packages
 
 ### From local .deb file
 
 ```bash
-dpkg -i eat-my-sms_*.deb
-apt --fix-broken install
+sudo dpkg -i eat-my-sms_*.deb
+sudo apt --fix-broken install
 ```
 
 ## Configuration

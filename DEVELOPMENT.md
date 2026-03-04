@@ -161,24 +161,38 @@ serial_baudrate = 115200
 
 ### Package Upload
 
-Packages are uploaded to:
+Packages are uploaded to the **Generic Package Registry** (Debian registry requires GitLab Premium):
 ```
-https://gitlab.pescheck.me/api/v4/projects/3/packages/debian
+https://gitlab.pescheck.me/api/v4/projects/3/packages/generic/eat-my-sms/{version}/
 ```
 
-**Distribution:** `stable`
-**Component:** `main`
+**Package naming:** `eat-my-sms_{version}_{arch}.deb`
 **Architectures:** `amd64`, `arm64`
 
 ### Authentication
 
-Uses `CI_JOB_TOKEN` for automatic authentication in CI/CD.
+Uses `CI_JOB_TOKEN` for automatic authentication in CI/CD (predefined variable, no setup needed).
 
-For manual uploads, use:
+For manual uploads:
 ```bash
+VERSION="1.0.3"
+ARCH="amd64"
+
 curl --header "PRIVATE-TOKEN: <token>" \
-     --upload-file package.deb \
-     "https://gitlab.pescheck.me/api/v4/projects/3/packages/debian/package.deb?distribution=stable&component=main&architecture=amd64"
+     --upload-file eat-my-sms_${VERSION}_${ARCH}.deb \
+     "https://gitlab.pescheck.me/api/v4/projects/3/packages/generic/eat-my-sms/${VERSION}/eat-my-sms_${VERSION}_${ARCH}.deb"
+```
+
+### Download Packages
+
+```bash
+# Public access (if project is public)
+curl -O "https://gitlab.pescheck.me/api/v4/projects/3/packages/generic/eat-my-sms/1.0.3/eat-my-sms_1.0.3_amd64.deb"
+
+# Private access
+curl --header "PRIVATE-TOKEN: <token>" \
+     "https://gitlab.pescheck.me/api/v4/projects/3/packages/generic/eat-my-sms/1.0.3/eat-my-sms_1.0.3_amd64.deb" \
+     --output eat-my-sms_1.0.3_amd64.deb
 ```
 
 ## Testing
