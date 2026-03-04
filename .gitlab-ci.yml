@@ -15,11 +15,13 @@ stages:
         export DEBEMAIL="gitlab-ci@pescheck.io"
         export DEBFULLNAME="GitLab CI"
 
+        # Create a temporary branch for gbp dch (it requires being on a branch)
+        git checkout -b temp-build-branch
+
         # Use gbp dch to automatically generate changelog from git commits
         gbp dch --new-version="$VERSION" \
                 --distribution=unstable \
                 --release \
-                --commit-msg="Update changelog for $VERSION release" \
                 --spawn-editor=never
       fi
     - dpkg-buildpackage -uc -us --host-arch $ARCH
