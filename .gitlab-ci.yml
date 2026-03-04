@@ -7,7 +7,21 @@ stages:
   image: debian
   stage: build
   script:
-    - apt update && apt install -y debhelper-compat config-package-dev python3-pip $EXTRA_PKG
+    - apt update && apt install -y debhelper-compat config-package-dev python3-pip git-buildpackage $EXTRA_PKG
+    # Auto-generate changelog from git commits using gbp dch
+    - |
+      if [ -n "$CI_COMMIT_TAG" ]; then
+        VERSION=${CI_COMMIT_TAG#v}  # Remove 'v' prefix from tag
+        export DEBEMAIL="gitlab-ci@pescheck.io"
+        export DEBFULLNAME="GitLab CI"
+
+        # Use gbp dch to automatically generate changelog from git commits
+        gbp dch --new-version="$VERSION" \
+                --distribution=unstable \
+                --release \
+                --commit-msg="Update changelog for $VERSION release" \
+                --spawn-editor=never
+      fi
     - dpkg-buildpackage -uc -us --host-arch $ARCH
     - mv ../*.deb ./
   artifacts:
@@ -53,4 +67,3 @@ deploy-packages:
       done
   rules:
     - if: $CI_COMMIT_TAG  # Only upload on tagged releases
-    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH  # Or on main/master branch
