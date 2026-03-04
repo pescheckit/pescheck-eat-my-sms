@@ -1,18 +1,13 @@
 [Unit]
-Description=Eat My SMS - All GSM Modems
+Description=Eat My SMS - All GSM Modems (Auto-detected)
 Documentation=https://github.com/pescheckit/eat-my-sms
 After=network-online.target
 Wants=network-online.target
 
-# Start all 8 possible modem services
-Wants=eat-my-sms@ttyUSB0.service
-Wants=eat-my-sms@ttyUSB1.service
-Wants=eat-my-sms@ttyUSB2.service
-Wants=eat-my-sms@ttyUSB3.service
-Wants=eat-my-sms@ttyUSB4.service
-Wants=eat-my-sms@ttyUSB5.service
-Wants=eat-my-sms@ttyUSB6.service
-Wants=eat-my-sms@ttyUSB7.service
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/usr/bin/eat-my-sms-start-all
 
 [Install]
 WantedBy=multi-user.target

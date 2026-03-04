@@ -1,5 +1,7 @@
 eat-my-sms.conf etc/eat-my-sms
 eat-my-sms.py usr/share/eat-my-sms
+eat-my-sms-start-all.sh usr/bin/eat-my-sms-start-all
+debian/eat-my-sms-devices.conf etc/eat-my-sms/devices.conf
 vendor/prometheus_client usr/share/eat-my-sms
 pushprox-client.conf etc/eat-my-sms
 vendor/pushprox/pushprox-client usr/bin

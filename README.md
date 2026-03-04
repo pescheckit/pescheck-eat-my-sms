@@ -79,14 +79,23 @@ systemctl start eat-my-sms@ttyUSB0.service
 systemctl enable eat-my-sms@ttyUSB0.service
 ```
 
-**Start ALL modems at once:**
+**Start ALL modems at once (auto-detect):**
 ```bash
-# Starts all 8 modem services (only those with SIM cards will stay running)
+# Auto-detects all /dev/ttyUSB* devices and starts services
 sudo systemctl start eat-my-sms.target
 sudo systemctl enable eat-my-sms.target
 ```
 
-**Or start specific modems:**
+This automatically starts services for all detected devices (up to 8 by default).
+
+**Configure device detection:**
+Edit `/etc/eat-my-sms/devices.conf`:
+```bash
+MAX_DEVICES=8              # Maximum devices to start
+DEVICE_PATTERN="ttyUSB*"   # Pattern to search for
+```
+
+**Or start specific modems manually:**
 ```bash
 sudo systemctl start eat-my-sms@ttyUSB0.service
 sudo systemctl enable eat-my-sms@ttyUSB0.service
