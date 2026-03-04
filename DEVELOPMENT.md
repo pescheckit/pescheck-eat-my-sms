@@ -25,18 +25,18 @@ The `.deb` file will be created in the parent directory.
 
 ## CI/CD Pipeline
 
-This project uses GitLab CI/CD for automated building and deployment.
+This project uses **GitHub Actions** for automated building and deployment.
 
-### Pipeline Stages
+### Workflows
 
-**On commits to master:**
+**On commits to master/main (build-test.yml):**
 1. **Build** - Builds packages for amd64 and arm64
 2. **Test** - Tests amd64 package installation
 
-**On version tags (e.g., `v0.9.1`):**
-1. **Build** - Builds packages + auto-generates changelog
+**On version tags (release.yml):**
+1. **Build** - Builds packages + auto-generates changelog with `gbp dch`
 2. **Test** - Tests amd64 package installation
-3. **Deploy** - Uploads packages to GitLab Package Registry
+3. **Release** - Creates GitHub Release with .deb attachments
 
 ### Creating a Release
 
@@ -53,11 +53,11 @@ This project uses GitLab CI/CD for automated building and deployment.
    git push origin v0.9.1
    ```
 
-3. **CI/CD automatically:**
+3. **GitHub Actions automatically:**
    - Generates Debian changelog from all commits since last tag using `gbp dch`
    - Builds `.deb` packages for amd64 and arm64
    - Tests package installation
-   - Uploads to GitLab Package Registry at `gitlab.pescheck.me`
+   - Creates GitHub Release with packages attached
 
 ### Changelog Generation
 
@@ -157,13 +157,13 @@ serial_baudrate = 115200
 - Slower, more prone to timeouts
 - Not recommended
 
-## GitLab Package Registry
+## GitHub Releases
 
-### Package Upload
+### Package Distribution
 
-Packages are uploaded to the **Generic Package Registry** (Debian registry requires GitLab Premium):
+Packages are distributed via **GitHub Releases** (publicly accessible):
 ```
-https://gitlab.pescheck.me/api/v4/projects/3/packages/generic/eat-my-sms/{version}/
+https://github.com/YOUR-USERNAME/eat-my-sms/releases
 ```
 
 **Package naming:** `eat-my-sms_{version}_{arch}.deb`
@@ -171,28 +171,19 @@ https://gitlab.pescheck.me/api/v4/projects/3/packages/generic/eat-my-sms/{versio
 
 ### Authentication
 
-Uses `CI_JOB_TOKEN` for automatic authentication in CI/CD (predefined variable, no setup needed).
-
-For manual uploads:
-```bash
-VERSION="1.0.3"
-ARCH="amd64"
-
-curl --header "PRIVATE-TOKEN: <token>" \
-     --upload-file eat-my-sms_${VERSION}_${ARCH}.deb \
-     "https://gitlab.pescheck.me/api/v4/projects/3/packages/generic/eat-my-sms/${VERSION}/eat-my-sms_${VERSION}_${ARCH}.deb"
-```
+Uses `GITHUB_TOKEN` for automatic authentication in GitHub Actions (predefined secret, no setup needed).
 
 ### Download Packages
 
 ```bash
-# Public access (if project is public)
-curl -O "https://gitlab.pescheck.me/api/v4/projects/3/packages/generic/eat-my-sms/1.0.3/eat-my-sms_1.0.3_amd64.deb"
+# Public download (no authentication needed for public repos)
+VERSION="1.0.3"
+ARCH="amd64"
 
-# Private access
-curl --header "PRIVATE-TOKEN: <token>" \
-     "https://gitlab.pescheck.me/api/v4/projects/3/packages/generic/eat-my-sms/1.0.3/eat-my-sms_1.0.3_amd64.deb" \
-     --output eat-my-sms_1.0.3_amd64.deb
+wget https://github.com/YOUR-USERNAME/eat-my-sms/releases/download/v${VERSION}/eat-my-sms_${VERSION}_${ARCH}.deb
+
+# Or with curl
+curl -L -O https://github.com/YOUR-USERNAME/eat-my-sms/releases/download/v${VERSION}/eat-my-sms_${VERSION}_${ARCH}.deb
 ```
 
 ## Testing

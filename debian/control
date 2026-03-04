@@ -1,7 +1,7 @@
 Source: eat-my-sms
 Section: unknown
 Priority: optional
-Maintainer: Dennis Eijkel <dennis.eijkel@pescheck.nl>
+Maintainer: Eat My SMS Maintainers <noreply@example.com>
 Build-Depends: debhelper-compat (= 13), config-package-dev (>= 5), curl
 Standards-Version: 4.5.1
 Rules-Requires-Root: no

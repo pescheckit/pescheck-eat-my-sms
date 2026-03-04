@@ -1,0 +1,61 @@
+name: Build and Test
+
+on:
+  push:
+    branches: [ master, main ]
+  pull_request:
+    branches: [ master, main ]
+
+jobs:
+  build:
+    name: Build ${{ matrix.arch }}
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        arch: [amd64, arm64]
+        include:
+          - arch: amd64
+            extra_pkg: ""
+          - arch: arm64
+            extra_pkg: "binutils-aarch64-linux-gnu"
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y debhelper-compat config-package-dev python3-pip curl ${{ matrix.extra_pkg }}
+
+      - name: Build package
+        run: |
+          dpkg-buildpackage -uc -us --host-arch ${{ matrix.arch }}
+          mv ../*.deb .
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: eat-my-sms-${{ matrix.arch }}
+          path: "*.deb"
+
+  test:
+    name: Test Installation
+    needs: build
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Download package
+        uses: actions/download-artifact@v4
+        with:
+          name: eat-my-sms-amd64
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y gnokii-cli python3 openssl
+
+      - name: Test install
+        run: |
+          sudo dpkg -i eat-my-sms_*_amd64.deb || true
+          sudo apt-get --fix-broken install -y

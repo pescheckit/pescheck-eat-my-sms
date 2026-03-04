@@ -19,33 +19,24 @@ Tested with:
 
 ## Installation
 
-### From GitLab Package Registry
+### From GitHub Releases
 
-**1. Create a Personal Access Token** (if you don't have one):
-   - Go to: https://gitlab.pescheck.me/-/user_settings/personal_access_tokens
-   - Scopes: `read_api`
-   - Save the token
-
-**2. Download the latest package:**
+**Download the latest release:**
 
 ```bash
-# Set your token
-export GITLAB_TOKEN="your-personal-access-token"
-
-# Download (replace VERSION and ARCH as needed)
+# Set version and architecture
 VERSION="1.0.3"
 ARCH="amd64"  # or "arm64"
 
-curl --header "PRIVATE-TOKEN: ${GITLAB_TOKEN}" \
-  "https://gitlab.pescheck.me/api/v4/projects/3/packages/generic/eat-my-sms/${VERSION}/eat-my-sms_${VERSION}_${ARCH}.deb" \
-  --output eat-my-sms_${VERSION}_${ARCH}.deb
+# Download from GitHub Releases
+wget https://github.com/YOUR-USERNAME/eat-my-sms/releases/download/v${VERSION}/eat-my-sms_${VERSION}_${ARCH}.deb
 
 # Install
 sudo dpkg -i eat-my-sms_${VERSION}_${ARCH}.deb
 sudo apt --fix-broken install
 ```
 
-**Latest version:** Check https://gitlab.pescheck.me/pescheck/eat-my-sms/-/packages
+**Latest version:** Check [Releases page](https://github.com/YOUR-USERNAME/eat-my-sms/releases)
 
 ### From local .deb file
 
@@ -62,7 +53,7 @@ Edit `/etc/eat-my-sms/eat-my-sms.conf`:
 [DEFAULT]
 pin = 0000
 poll_interval = 5
-webhook_url = https://dashboard.pescheck.io/webhook/vog
+webhook_url = https://example.com/webhook
 
 # Optional: Enable metrics
 # metrics_port = 8080
@@ -73,7 +64,7 @@ webhook_url = https://dashboard.pescheck.io/webhook/vog
 # Override per device
 [ttyUSB0]
 poll_interval = 3
-webhook_url = https://different-webhook.example.com
+webhook_url = https://example.com/other-webhook
 ```
 
 ## Running
