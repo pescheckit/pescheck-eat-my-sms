@@ -84,8 +84,8 @@ systemctl enable eat-my-sms@ttyUSB0.service
 **Start ALL modems at once (auto-detect):**
 ```bash
 # Auto-detects all /dev/ttyUSB* devices and starts services
-sudo systemctl start eat-my-sms.target
-sudo systemctl enable eat-my-sms.target
+sudo systemctl start eat-my-sms-all.service
+sudo systemctl enable eat-my-sms-all.service
 ```
 
 This automatically:
@@ -137,9 +137,9 @@ sudo journalctl -u eat-my-sms@ttyUSB0.service -f
 sudo systemctl status 'eat-my-sms@*.service'
 ```
 
-**Check the target status:**
+**Check the auto-start service:**
 ```bash
-sudo systemctl status eat-my-sms.target
+sudo systemctl status eat-my-sms-all.service
 ```
 
 **Prometheus metrics** (if enabled):
