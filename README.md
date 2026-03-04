@@ -79,17 +79,17 @@ systemctl start eat-my-sms@ttyUSB0.service
 systemctl enable eat-my-sms@ttyUSB0.service
 ```
 
-**Start multiple modems:**
+**Start ALL modems at once:**
 ```bash
-# Start and enable each modem individually
+# Starts all 8 modem services (only those with SIM cards will stay running)
+sudo systemctl start eat-my-sms.target
+sudo systemctl enable eat-my-sms.target
+```
+
+**Or start specific modems:**
+```bash
 sudo systemctl start eat-my-sms@ttyUSB0.service
 sudo systemctl enable eat-my-sms@ttyUSB0.service
-
-sudo systemctl start eat-my-sms@ttyUSB1.service
-sudo systemctl enable eat-my-sms@ttyUSB1.service
-
-sudo systemctl start eat-my-sms@ttyUSB3.service
-sudo systemctl enable eat-my-sms@ttyUSB3.service
 ```
 
 **Manage all running modems at once:**
