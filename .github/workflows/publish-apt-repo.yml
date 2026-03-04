@@ -59,6 +59,25 @@ jobs:
           name: eat-my-sms-${{ matrix.arch }}
           path: "*.deb"
 
+  create-release:
+    name: Create GitHub Release
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Download packages
+        uses: actions/download-artifact@v4
+        with:
+          path: packages
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: packages/*/*.deb
+          generate_release_notes: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
   publish-apt:
     name: Publish APT Repository
     needs: build
