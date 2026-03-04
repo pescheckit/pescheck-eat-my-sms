@@ -4,44 +4,44 @@ Hash: SHA512
 Origin: Eat My SMS
 Label: eat-my-sms
 Codename: stable
-Date: Wed, 04 Mar 2026 13:30:18 UTC
+Date: Wed, 04 Mar 2026 13:55:17 UTC
 Architectures: amd64 arm64
 Components: main
 Description: Eat My SMS Package Repository
 MD5Sum:
- dff372f4e86948d30cb904c40cf600b2 566 main/binary-amd64/Packages
- bbdbe06c640bd52687d04cece3e784b4 410 main/binary-amd64/Packages.gz
+ b3d5492ddbda6d629d3a48c1751e4397 566 main/binary-amd64/Packages
+ f09f37eb0bd08c7c64cfcefb8bb4aee7 410 main/binary-amd64/Packages.gz
  ac041ae1d272d66d2b7a29ed11161f88 116 main/binary-amd64/Release
- 30d4e0f2a327ec7e35aab4ca224873d9 566 main/binary-arm64/Packages
- 5c49086d85a6dae9481f2890454cdb7f 411 main/binary-arm64/Packages.gz
+ 7dc7e4195583dc845fb4c56d579c64d3 566 main/binary-arm64/Packages
+ 9169f493d736e7a206271ea2c4843f1b 412 main/binary-arm64/Packages.gz
  0f2fdcf4bb88be67cd36131aa45f5d12 116 main/binary-arm64/Release
 SHA1:
- 1318b37fe04d9a0e5d29ade707fcb7e231d8fafa 566 main/binary-amd64/Packages
- 675a05d7a371a23a0c83cb9629098e3454df6720 410 main/binary-amd64/Packages.gz
+ c402048d51e4b43fbcbb3159efa063e694400645 566 main/binary-amd64/Packages
+ 6a85ea011f5833f37435681a7926ce165a43ce00 410 main/binary-amd64/Packages.gz
  15565d2e3240e4258287f25cfca9f8609be6c914 116 main/binary-amd64/Release
- 7ab17d5880cd06f5447a9d99cc5461e63939f9d3 566 main/binary-arm64/Packages
- b86bcdc67aa139f1333c99d874f38482791db793 411 main/binary-arm64/Packages.gz
+ 86ffe8ee649e36ff87b403ecc0d6f2cfd608ce15 566 main/binary-arm64/Packages
+ c3ad3a2f09213bfd41b369eaeda9fe166a053057 412 main/binary-arm64/Packages.gz
  d917cd80c33e0a9a4b04e53c2c350015f57d30dd 116 main/binary-arm64/Release
 SHA256:
- 4f92d0a513099d08915048f6676e9105e6ed4e2c6339cb19fa7021ab743c823f 566 main/binary-amd64/Packages
- 50358891f9711201eab100f029bec22c05eab19632aaf91b4ec69d900d560da8 410 main/binary-amd64/Packages.gz
+ 15eeb2480e5de1af457eb84fec113b18c8eadd6529a75a57e5f63f78e666d159 566 main/binary-amd64/Packages
+ 4ef6017a60d5ad21dc4148b4198a8c2fc7a5d08477aa3bfb06455cb118ab5036 410 main/binary-amd64/Packages.gz
  2ad29a432428275cf15b03f34a05f9d6594968b1c3811f7a74d2bdf2a7ba3b29 116 main/binary-amd64/Release
- 8875535e092d0a2871612499aa39daeff1fa1132bd89c04b5954f13d1fc1baed 566 main/binary-arm64/Packages
- b78170663e95f6c6992e155349f0c822227227e24a0186bf05ec2a0c24a80478 411 main/binary-arm64/Packages.gz
+ 19f6437bb556b88250f15b4e0d7a0761c890bac502c8572604e72ecc2e74bfdf 566 main/binary-arm64/Packages
+ e420216982d65f26bce47cce310eea80d1c08d479c10fc493552e287fc2a2f9a 412 main/binary-arm64/Packages.gz
  e8cf99e71ad135e22c8c12666e47e01cacdde446fd1902fd3b10b1507a4a6f46 116 main/binary-arm64/Release
 -----BEGIN PGP SIGNATURE-----
 
-iQIyBAEBCgAdFiEETGCh7mMuezleOhCxHUyQfzn/sSEFAmmoM+oACgkQHUyQfzn/
-sSF2dg/3dQeaSLFJqltfiPcaklNJg+vLJj9YuvePQ3IuXRh+CCoQiz8UIDkTEMmM
-tPLyP5qzpcizMP9AUDACFR8EIGdVOg11g9lt+fD7SP7/ora7MbhSxaV3eWko9BIj
-p5I+WOGMIarDY5L3BGSUsnT6/t5a1ezXchgvV9ij7tIulqMM8fOh5lmHsjtFbXHp
-0dfVHDYZBhHfQtSmQH8+9ASo+43NFh/a5CXjnc46dBekD/tGMkeT4SAaR/eoz7vX
-7mPV74u1p9pesYz1vlYnKQL5PzbpHzL51X8r6KGi533kyUzjxCJlVkI9j6gwqlRe
-yFh9sUc2YYUBfiDzWSDPWvRjPf+79830HRaCFUQeks2s794w1Cnx8Q0k9Iv6ykVF
-ZMez43K3lMQlqziV9NJXA5gQIOlpY3K/vO3LIc5z7ZjfGA6s1h0mSwV2C86zR39w
-pHT17VrnqAfwFdhjXmg5vO02DYkVmC5Yjm4PyUcVlcd1xTY0fpPVZKH/2JiaWVp+
-//1fs9gRVMrGJaoVlG1d1kwyzDI6oPdhqpjE/LdkbfBhv4PCsFDcQwNDH8fe4DS9
-aKFcmk5syQ8t1cxjXkrpJ7HnPV/c/BGAElbbumO6lfvzXJjVWsUiblnnw5GSOhl6
-1u6yYePqbQG1mr0WQaauXQOmUX9lmYKIUhoAKwsirLG6fAlzUA==
-=6374
+iQIzBAEBCgAdFiEETGCh7mMuezleOhCxHUyQfzn/sSEFAmmoOcUACgkQHUyQfzn/
+sSGnEBAAliCA54MPIKqK9QF7uxpNBhLCB6bcvjF02LDA3yeveeihmVg5M4g3hbB9
+5ppu4MUZa2W6Zj73gHKJltwnhVnTIaepT9h580ttoZGdJArlzNJ5FgoSWWBusgbn
+UD1Fa0WBpfnEqpbII2d4MRUD7Ziivjtx80b2mM6R7f2vgYIGbC0EdEoPV+eywKTQ
+/amd9SC4Q8dVkZSoyc8foBweFa2uW66tuRXekmnV67Sxxh1aDRZ3pPWEJqb4uPu9
+riyuSCsMcDjgCtf9FeM0Pe57jIbdRSitj4nV3Gpz/Dl7aW9Fis8jDWzQwPh1LFF7
+AwlmPyoWQAHCeG/YBJ4l+s+VYCdDexU75dnnw+ze887NMIHUbaR8wux+Fz/tz0Zv
+5Z9BmOE4ZEmZherTuRiLrLmkD2yYWc/cKpeM3OjJrcKF/xOnpo+YI0HwptqxmpCM
+aidTytPH5uETfwpS+FG9yJ1v/OeJbkRSy4bsPOl5Akn6xD+vHEMrN1lwYDl6wkFT
+dydODwjkoKlcX7RbNVfZpP7oNiUfnRg5lA5oo5QU3+xBZifgH9MianTB0BQWL01i
+Ll0eh3Bo4i4XXv3TIqPSeYUjiWmxFF6O/dzPV/9Xl0A9qnxOJ3BkvMiXr6WvW47p
+Srjmlx8DO62xPjPm25aM1FKY0ZnCFvxCDLrt2UFJ6hbYRlAgAyo=
+=DwNH
 -----END PGP SIGNATURE-----
