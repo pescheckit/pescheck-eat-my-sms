@@ -4,4 +4,4 @@ Codename: stable
 Architectures: amd64 arm64
 Components: main
 Description: Eat My SMS Package Repository
-SignWith: 06482C0FCDEC99AF
+SignWith: 1D4C907F39FFB121

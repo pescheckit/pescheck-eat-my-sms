@@ -1,28 +1,28 @@
 Origin: Eat My SMS
 Label: eat-my-sms
 Codename: stable
-Date: Wed, 04 Mar 2026 13:17:22 UTC
+Date: Wed, 04 Mar 2026 13:22:52 UTC
 Architectures: amd64 arm64
 Components: main
 Description: Eat My SMS Package Repository
 MD5Sum:
- 0558d68abe67c090e417b8554fd4a290 566 main/binary-amd64/Packages
- 59e0cde550d4f0af538d15ad162d2605 411 main/binary-amd64/Packages.gz
+ 719aa8b2474d1fbdf1922b8fb3443775 566 main/binary-amd64/Packages
+ 5fc61634bdc1b048eaf22a57deaad384 411 main/binary-amd64/Packages.gz
  ac041ae1d272d66d2b7a29ed11161f88 116 main/binary-amd64/Release
- 25ed07acce8a93241cf4a1906ac9fdd5 566 main/binary-arm64/Packages
- 1e3186100cb66c7bcd3b5446ed8d2be1 411 main/binary-arm64/Packages.gz
+ 2588a2da9f72daf9df14ecc680c7f6df 566 main/binary-arm64/Packages
+ 42b5b8573227553cca4f64aff56a5028 412 main/binary-arm64/Packages.gz
  0f2fdcf4bb88be67cd36131aa45f5d12 116 main/binary-arm64/Release
 SHA1:
- 02ff45b6d8da9e8cfce9439ba13cedc0618136ea 566 main/binary-amd64/Packages
- f8d85c31d4fc92b4ae435c4074b3356f7173cb61 411 main/binary-amd64/Packages.gz
+ 16ffd3334449b4ade5f0dc06d28247133f8ab81b 566 main/binary-amd64/Packages
+ c1a6708f72a56468b2fa3bb9d6fcc71736fe70e7 411 main/binary-amd64/Packages.gz
  15565d2e3240e4258287f25cfca9f8609be6c914 116 main/binary-amd64/Release
- 7a2cd6fde816981ead7bc259e56027c074d4e002 566 main/binary-arm64/Packages
- ef5224289fb5b24ae10e132604e0330c6a52c63a 411 main/binary-arm64/Packages.gz
+ 7db1ebcac35db01d1a3f78c06b7e579bc5118494 566 main/binary-arm64/Packages
+ 74ffb516cc7e3449ea7c7a996557fbe9261f7d3b 412 main/binary-arm64/Packages.gz
  d917cd80c33e0a9a4b04e53c2c350015f57d30dd 116 main/binary-arm64/Release
 SHA256:
- a7885da611f622b221a759b17c0f8035840347b86a998f5667f4250213e9f306 566 main/binary-amd64/Packages
- fae665959a2f335ec9030687dfdc4c753d3f00bee91afb1314bddb7d48472405 411 main/binary-amd64/Packages.gz
+ c41bafdb360f2d94fa38bc442cc2edacc3b18d36fcd6e9a7f816162308dddc63 566 main/binary-amd64/Packages
+ 913ac5e5667c09032ea2f2d18ccb21bb54b1ba7d80a39bce075ef6dc2a462a24 411 main/binary-amd64/Packages.gz
  2ad29a432428275cf15b03f34a05f9d6594968b1c3811f7a74d2bdf2a7ba3b29 116 main/binary-amd64/Release
- f9f0aa30839c83a5461060694463bd5d1880e199e5c753aed942ff7b13efccf5 566 main/binary-arm64/Packages
- 10b7acc0f724027faf9c901c52da5bfec4094a81a10602f13a46bf5832e5d0fb 411 main/binary-arm64/Packages.gz
+ 0d8acbf10be9d9c3d7ff9a00ba0227c276c7fd0abe887f587f706d4221fa75a3 566 main/binary-arm64/Packages
+ 3b5cb76a5e4515493bdc27635f14efcba8034859ad04d672b108c42dbbecb742 412 main/binary-arm64/Packages.gz
  e8cf99e71ad135e22c8c12666e47e01cacdde446fd1902fd3b10b1507a4a6f46 116 main/binary-arm64/Release
