@@ -108,12 +108,17 @@ jobs:
       - name: Install reprepro
         run: sudo apt-get update && sudo apt-get install -y reprepro
 
-      - name: Import GPG key
+      - name: Import or generate GPG key
         run: |
-          echo "${{ secrets.GPG_PRIVATE_KEY }}" | gpg --batch --import
-          # If no GPG key secret exists, generate one
-          if ! gpg --list-secret-keys | grep -q .; then
-            echo "Generating GPG key..."
+          # Try to import existing key from secrets
+          if [ -n "${{ secrets.GPG_PRIVATE_KEY }}" ]; then
+            echo "${{ secrets.GPG_PRIVATE_KEY }}" | gpg --batch --import
+            echo "✓ Imported GPG key from secrets"
+          fi
+
+          # If no key exists, generate one
+          if ! gpg --list-secret-keys 2>/dev/null | grep -q sec; then
+            echo "No GPG key found, generating new one..."
             gpg --batch --gen-key <<EOF
           %no-protection
           Key-Type: RSA
@@ -122,10 +127,7 @@ jobs:
           Name-Email: noreply@github.com
           Expire-Date: 0
           EOF
-            # Export for display
-            gpg --armor --export noreply@github.com > gh-pages/apt/public.key
-            echo "⚠️  GPG key generated. Save the private key to secrets.GPG_PRIVATE_KEY:"
-            gpg --armor --export-secret-keys noreply@github.com
+            echo "✓ Generated new GPG key"
           fi
 
       - name: Setup reprepro config
