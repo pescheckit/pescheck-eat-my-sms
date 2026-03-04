@@ -12,10 +12,12 @@ A daemon to work with 8-way GSM modem hubs to read SMS messages and send them to
 
 ## Hardware Support
 
-Tested with:
-- 8-way USB GSM modem hubs (Exar XR21V1414)
+**Designed for 8-way USB GSM modem hubs:**
+- Exar XR21V1414 4-channel UART (2 chips = 8 ports)
 - Baud rate: 115200
-- Device names: `ttyUSB0-7` (USB hubs) or `ttyACM0-X` (direct USB modems)
+- Device names: `ttyUSB0` through `ttyUSB7`
+- Also works with direct USB modems: `ttyACM0`, `ttyACM1`, etc.
+- Configurable for any number of devices (default: 8)
 
 ## Installation
 
@@ -86,13 +88,20 @@ sudo systemctl start eat-my-sms.target
 sudo systemctl enable eat-my-sms.target
 ```
 
-This automatically starts services for all detected devices (up to 8 by default).
+This automatically:
+- Scans for devices matching the pattern (default: `ttyUSB*`)
+- Starts up to **8 services** by default (configurable)
+- Only runs services for ports with working SIM cards
 
 **Configure device detection:**
 Edit `/etc/eat-my-sms/devices.conf`:
 ```bash
-MAX_DEVICES=8              # Maximum devices to start
-DEVICE_PATTERN="ttyUSB*"   # Pattern to search for
+MAX_DEVICES=8              # Default: 8 (for 8-way hubs)
+DEVICE_PATTERN="ttyUSB*"   # Default: ttyUSB0-7
+
+# Examples for other setups:
+# MAX_DEVICES=16           # For 16-way hubs
+# DEVICE_PATTERN="ttyACM*" # For direct USB modems
 ```
 
 **Or start specific modems manually:**
@@ -140,15 +149,20 @@ curl http://localhost:8080/metrics
 
 ## Troubleshooting
 
-### Check which ports have SIM cards
+### Check which ports have SIM cards (8-way hub)
 
 ```bash
+# Test all 8 ports (ttyUSB0 through ttyUSB7)
 for i in {0..7}; do
   echo "=== Testing ttyUSB$i ==="
   timeout 10 python3 /usr/share/eat-my-sms/eat-my-sms.py ttyUSB$i 2>&1 | \
     grep -E "unlocked|Network info|timeout|missing"
 done
 ```
+
+**Expected output:**
+- Ports with SIM cards: "Network info: T-Mobile..."
+- Ports without SIM: "SIM card missing or damaged"
 
 ### Common Issues
 
