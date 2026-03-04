@@ -1,30 +1,28 @@
 # Eat My SMS
 
-A daemon to work with an 8-way GSM modem hub to read SMS messages and send them to a webhook.
+A daemon to work with 8-way GSM modem hubs to read SMS messages and send them to a webhook.
 
 ## Features
 
-- 🔄 **Automatic retry logic** with exponential backoff for network registration and SMS reading
-- 📦 **Multi-architecture support** (amd64, arm64)
-- 🚀 **CI/CD automated builds** with GitLab Package Registry integration
-- 📝 **Automatic changelog generation** from git commits
-- ⚡ **115200 baud rate** support for modern USB hubs
-- 🔧 **Graceful timeout handling** - continues polling on failures instead of crashing
-- 📊 **Prometheus metrics** support
+- 🔄 Automatic retry logic with exponential backoff
+- ⚡ 115200 baud rate support for modern USB hubs
+- 🔧 Graceful error handling - continues on failures
+- 📊 Prometheus metrics support
+- 📦 Multi-architecture packages (amd64, arm64)
 
 ## Hardware Support
 
 Tested with:
-- 8-way USB GSM modem hubs (Exar XR21V1414 4-channel UART)
+- 8-way USB GSM modem hubs (Exar XR21V1414)
 - Baud rate: 115200
-- Memory: SM (SIM-only) for better reliability
+- Device names: `ttyUSB0-7` (USB hubs) or `ttyACM0-X` (direct USB modems)
 
-## Quick Start
+## Installation
 
-### Install from GitLab Package Registry
+### From GitLab Package Registry
 
 ```bash
-# Add repository (replace PROJECT_ID with your project ID)
+# Add repository
 echo "deb https://gitlab.pescheck.me/api/v4/projects/3/packages/debian stable main" | \
   sudo tee /etc/apt/sources.list.d/eat-my-sms.list
 
@@ -41,152 +39,127 @@ sudo apt update
 sudo apt install eat-my-sms
 ```
 
-### Building Debian package locally
+### From local .deb file
 
-To build this project as a Debian package, run the following commands on a Debian machine:
-
-```console
-# Install build dependencies
-apt install debhelper-compat config-package-dev python3-pip curl
-
-# Build the package
-dpkg-buildpackage -uc -us
-```
-
-The `.deb` file will be created in the parent folder.
-
-#### Build for different architecture
-
-```console
-dpkg-buildpackage -uc -us --host-arch arm64
-```
-
-## Installing from local .deb file
-
-If you built the package locally:
-
-```console
+```bash
 dpkg -i eat-my-sms_*.deb
 apt --fix-broken install
 ```
 
 ## Configuration
 
-After installing the package, the [eat-my-sms.conf](eat-my-sms.conf) config file is installed at `/etc/eat-my-sms/eat-my-sms.conf`.
-There you can set default configuration values and override them for specific modems.
+Edit `/etc/eat-my-sms/eat-my-sms.conf`:
+
+```ini
+[DEFAULT]
+pin = 0000
+poll_interval = 5
+webhook_url = https://dashboard.pescheck.io/webhook/vog
+
+# Optional: Enable metrics
+# metrics_port = 8080
+
+# Optional: Add extra field to webhook payload
+# webhook_extra = production
+
+# Override per device
+[ttyUSB0]
+poll_interval = 3
+webhook_url = https://different-webhook.example.com
+```
 
 ## Running
 
-To start (and enable) the script for a specific modem, use the `eat-my-sms@<device>.service` systemd unit.
-
-**Device naming depends on your hardware:**
-- USB hubs: `ttyUSB0`, `ttyUSB1`, etc.
-- Direct USB modems: `ttyACM0`, `ttyACM1`, etc.
-
-**Example with USB hub (ttyUSB):**
-```console
+**Start a single modem:**
+```bash
 systemctl start eat-my-sms@ttyUSB0.service
 systemctl enable eat-my-sms@ttyUSB0.service
-
-systemctl start eat-my-sms@ttyUSB1.service
-systemctl enable eat-my-sms@ttyUSB1.service
 ```
 
-**Example with direct USB modems (ttyACM):**
-```console
-systemctl start eat-my-sms@ttyACM0.service
-systemctl enable eat-my-sms@ttyACM0.service
+**Start multiple modems:**
+```bash
+systemctl start eat-my-sms@ttyUSB{0,1,3}.service
+systemctl enable eat-my-sms@ttyUSB{0,1,3}.service
 ```
 
-**Managing all modems at once** (systemd globbing):
-
-```console
-# Restart all running instances
+**Manage all modems:**
+```bash
 systemctl restart 'eat-my-sms@*.service'
-
-# Stop all running instances
 systemctl stop 'eat-my-sms@*.service'
 ```
 
-**Note:** Quotes are required to prevent shell expansion of `*`.
+## Monitoring
 
-## Metrics
-
-Metrics are tracked and served in Prometheus format on each modem, if enabled.
-To enable metrics, set the `metrics_port` value in the main `/etc/eat-my-sms/eat-my-sms.conf` file.
-
-This package ships with a [PushProx](https://github.com/prometheus-community/PushProx) client.
-PushProx allows Prometheus to monitor through a NAT.
-
-The PushProx proxy is configured from `/etc/eat-my-sms/pushprox-client.conf`.
-Upon installation, a systemd unit file is automatically enabled for PushProx
-
-```console
-systemctl status pushprox-client.service
-```
-
-PushProx will use a TLS client certificate to authenticate to the PushProx proxy server running next to Prometheus.
-The files are generated upon installation and placed in `/etc/eat-my-sms/tls`.
-The `/etc/eat-my-sms/tls/ca.crt` file is the Certificate Authorities' certificate that is used to sign the client certificate.
-
-## CI/CD & Release Process
-
-This project uses GitLab CI/CD for automated building and deployment.
-
-### Creating a Release
-
-1. **Make your changes and commit them**
-2. **Create a version tag:**
-   ```bash
-   git tag v0.9.1
-   git push origin v0.9.1
-   ```
-
-3. **CI/CD automatically:**
-   - Generates changelog from commit messages using `gbp dch`
-   - Builds packages for amd64 and arm64
-   - Tests the amd64 package
-   - Uploads to GitLab Package Registry
-
-### Pipeline Stages
-
-- **On commits to master:** Build + Test only
-- **On version tags:** Build + Test + Deploy to Package Registry
-
-### Changelog Generation
-
-The Debian changelog is automatically generated from git commit messages when you create a tag:
-- Uses `gbp dch` (git-buildpackage)
-- Includes all commits since the last tag
-- Formats according to Debian standards
-
-## Reliability Improvements
-
-- **Network registration:** 20 retries with exponential backoff (3s → 6s → 12s → 30s max)
-- **SMS reading:** 3 retries with exponential backoff (2s → 4s)
-- **Timeout handling:** 60 second timeout for gnokii operations
-- **Memory type:** Uses SM (SIM-only) instead of MT for better reliability
-- **Graceful failures:** Returns empty list on errors, continues polling
-
-## Troubleshooting
-
-### Check which USB ports have SIM cards
-
-```bash
-for i in {0..7}; do
-  echo "=== Testing ttyUSB$i ==="
-  timeout 10 python3 /usr/share/eat-my-sms/eat-my-sms.py ttyUSB$i 2>&1 | grep -E "unlocked|Network info|timeout"
-done
-```
-
-### View logs
-
+**View logs:**
 ```bash
 journalctl -u eat-my-sms@ttyUSB0.service -f
 ```
 
+**Check status:**
+```bash
+systemctl status eat-my-sms@ttyUSB0.service
+```
+
+**Prometheus metrics** (if enabled):
+```bash
+curl http://localhost:8080/metrics
+```
+
+## Troubleshooting
+
+### Check which ports have SIM cards
+
+```bash
+for i in {0..7}; do
+  echo "=== Testing ttyUSB$i ==="
+  timeout 10 python3 /usr/share/eat-my-sms/eat-my-sms.py ttyUSB$i 2>&1 | \
+    grep -E "unlocked|Network info|timeout|missing"
+done
+```
+
 ### Common Issues
 
-**"SIM card missing or damaged":** No SIM card in that slot
-**"Timeout":** Modem not responding - check baud rate (should be 115200)
-**"Unknown security code status":** Modem in transitional state - script handles this automatically
+| Issue | Cause | Solution |
+|-------|-------|----------|
+| "SIM card missing or damaged" | No SIM in slot | Check physical SIM card |
+| "Timeout" | Modem not responding | Verify baud rate is 115200 |
+| "Unknown security code status" | Transitional state | Script handles automatically |
+| 404 webhook error | Wrong webhook URL | Update `webhook_url` in config |
+
+### View received SMS in logs
+
+```bash
+journalctl -u eat-my-sms@ttyUSB0.service | grep "Received SMS"
+```
+
+Example output:
+```
+[INFO]: Received SMS: from=+31612345678, date=04/03/2026 11:41:21 +0100, body=Test message
+```
+
+## PushProx (Prometheus through NAT)
+
+The package includes [PushProx](https://github.com/prometheus-community/PushProx) for monitoring through NAT.
+
+**Configure** `/etc/eat-my-sms/pushprox-client.conf`:
+```ini
+FQDN=your-hostname.example.com
+PROXY_URL=https://pushprox.example.com
+```
+
+**Check status:**
+```bash
+systemctl status pushprox-client.service
+```
+
+TLS certificates are auto-generated in `/etc/eat-my-sms/tls/`.
+
+---
+
+## Development
+
+See [DEVELOPMENT.md](DEVELOPMENT.md) for:
+- Building from source
+- CI/CD pipeline
+- Release process
+- Technical architecture
