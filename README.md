@@ -73,6 +73,18 @@ poll_interval = 3
 webhook_url = https://example.com/other-webhook
 ```
 
+### Exposing a local webhook through a tunnel
+
+If your webhook receiver runs on a local machine without a public address, you'll
+need a tunnel to give it a public `webhook_url`. Not all tunnel providers work
+with this daemon:
+
+| Tunnel | Works | Notes |
+|--------|-------|-------|
+| [localtunnel](https://github.com/localtunnel/localtunnel) | ✅ Yes | Works out of the box |
+| [Cloudflare Tunnel](https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/) | ✅ Yes | Works out of the box |
+| [Pinggy](https://pinggy.io/) | ❌ No | Does not work, use one of the alternatives above |
+
 ## Running
 
 **Start a single modem:**
