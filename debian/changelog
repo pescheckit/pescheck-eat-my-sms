@@ -4,6 +4,10 @@ eat-my-sms (1.1.9) unstable; urgency=medium
     a new random temp file on every start (crash-looping modems exhausted
     /tmp inodes). Uses systemd RuntimeDirectory (/run/eat-my-sms/<port>)
     when available, falling back to a fixed name in the temp dir.
+  * Only delete an SMS from the modem after the webhook accepted it, so a
+    failed delivery is retried on the next poll instead of being lost.
+  * Add a 30s timeout to webhook calls so a hung webhook server can no
+    longer freeze the poll loop indefinitely.
 
  -- Bram Mittendorff <brampescheck@gmail.com>  Tue, 21 Jul 2026 15:28:45 +0200
 

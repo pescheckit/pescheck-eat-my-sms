@@ -25,6 +25,7 @@ connection = serial
 serial_baudrate = 115200
 '''
 DEFAULT_SMS_STORAGE = 'MT'
+WEBHOOK_TIMEOUT = 30
 PROM_RECEIVED_SMS = None
 PROM_WEBHOOK_FAILED = None
 
@@ -56,12 +57,17 @@ def send_message(message):
     req.add_header('Content-Type', 'application/json; charset=utf-8')
     req.add_header('User-Agent', 'EatMySMS/1.0')
     try:
-        urllib.request.urlopen(req, json.dumps(message).encode('utf-8'))
-    except urllib.error.URLError as err:
+        urllib.request.urlopen(
+            req, json.dumps(message).encode('utf-8'), timeout=WEBHOOK_TIMEOUT)
+        return True
+    # OSError covers URLError, HTTPError (non-2xx) and socket timeouts on
+    # every supported Python version.
+    except OSError as err:
         logging.error('Could not send message: {}'.format(message))
         logging.exception(err)
         PROM_WEBHOOK_FAILED.labels(
             CONFIG['port'], CONFIG['webhook_extra'], CONFIG['webhook_url']).inc()
+        return False
 
 
 class Modem:
@@ -205,14 +211,20 @@ class Modem:
             raise Exception('Modem rejected AT+CPMS', resp.strip())
         logging.info('SMS storage set to {}'.format(storage))
 
+    def delete_sms(self, location):
+        self.command('--deletesms', CONFIG['sms_storage'], str(location))
+
     def read_sms(self):
-        # Storage configured at init via AT+CPMS — see Modem.set_sms_storage
+        # Storage configured at init via AT+CPMS — see Modem.set_sms_storage.
+        # Messages are NOT deleted here: the caller deletes each one via
+        # delete_sms only after the webhook accepted it, so an undeliverable
+        # message stays on the modem and is retried next poll.
         max_retries = 3
         retry_delay = 2
 
         for attempt in range(max_retries):
             try:
-                cmd = self.command('--getsms', CONFIG['sms_storage'], '1', 'end', '--delete')
+                cmd = self.command('--getsms', CONFIG['sms_storage'], '1', 'end')
                 break  # Success, exit retry loop
             except subprocess.TimeoutExpired:
                 if attempt < max_retries - 1:
@@ -228,31 +240,30 @@ class Modem:
                 return []  # Return empty list on other errors
 
         sms = []
-        messages = re.split(
-            r'\d+\. inbox message.*[\n]', cmd[0], flags=re.M | re.I)
-        for msg in messages:
-            if msg:
-                PROM_RECEIVED_SMS.labels(
-                    CONFIG['port'], CONFIG['webhook_extra'], CONFIG['webhook_url']).inc()
-                data = {}
+        # The captured group keeps each message's storage location (the "N."
+        # gnokii prints) in the split result, needed later for delete_sms.
+        parts = re.split(
+            r'(\d+)\. inbox message.*[\n]', cmd[0], flags=re.M | re.I)
+        for location, msg in zip(parts[1::2], parts[2::2]):
+            data = {}
 
-                date = re.search(r'^date/time:(.*)$', msg, re.M | re.I)
-                if date:
-                    data['date'] = date.group(1).strip()
-                sender = re.search(r'^sender:\s+(\+\d+)', msg, re.M | re.I)
-                if sender:
-                    data['sender'] = sender.group(1).strip()
-                smsc = re.search(r'msg center:\s+(\+\d+)', msg, re.M | re.I)
-                if smsc:
-                    data['smsc'] = smsc.group(1).strip()
+            date = re.search(r'^date/time:(.*)$', msg, re.M | re.I)
+            if date:
+                data['date'] = date.group(1).strip()
+            sender = re.search(r'^sender:\s+(\+\d+)', msg, re.M | re.I)
+            if sender:
+                data['sender'] = sender.group(1).strip()
+            smsc = re.search(r'msg center:\s+(\+\d+)', msg, re.M | re.I)
+            if smsc:
+                data['smsc'] = smsc.group(1).strip()
 
-                body_parts = re.split(r'^text:[\n]', msg, flags=re.M | re.I)
-                if len(body_parts) > 1:
-                    data['body'] = body_parts[1].strip()
-                else:
-                    data['body'] = ''
+            body_parts = re.split(r'^text:[\n]', msg, flags=re.M | re.I)
+            if len(body_parts) > 1:
+                data['body'] = body_parts[1].strip()
+            else:
+                data['body'] = ''
 
-                sms.append(data)
+            sms.append((int(location), data))
 
         return sms
 
@@ -293,10 +304,19 @@ def main():
 
     logging.info('Start reading SMS...')
     while True:
-        for sms in modem.read_sms():
+        for location, sms in modem.read_sms():
             logging.info('Received SMS: from={}, date={}, body={}'.format(
                 sms.get('sender', 'unknown'), sms.get('date', 'unknown'), sms.get('body', '')))
-            send_message(sms)
+            if not send_message(sms):
+                # Not delivered: keep it on the modem, retry next poll.
+                continue
+            PROM_RECEIVED_SMS.labels(
+                CONFIG['port'], CONFIG['webhook_extra'], CONFIG['webhook_url']).inc()
+            try:
+                modem.delete_sms(location)
+            except Exception as err:
+                logging.warning('SMS at location {} was delivered but could not be '
+                                'deleted from the modem; it may be delivered again: {}'.format(location, err))
         time.sleep(CONFIG['poll_interval'])
 
 
