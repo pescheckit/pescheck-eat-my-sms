@@ -69,9 +69,12 @@ class Modem:
         logging.info('Initializing modem at /dev/{}'.format(port))
         self.port = port
 
-        with tempfile.NamedTemporaryFile(mode='w+t', prefix='gnokii-', delete=False) as config:
+        # Deterministic per-port path so restarts overwrite instead of leaking
+        # a new file per process start (see 873k-orphan /tmp incident).
+        config_dir = os.environ.get('RUNTIME_DIRECTORY', tempfile.gettempdir())
+        self.config = os.path.join(config_dir, 'gnokii-{}.conf'.format(port))
+        with open(self.config, 'w') as config:
             config.write(GNOKII_CONFIG_TEMPLATE.format(port))
-            self.config = config.name
         logging.info('Wrote gnokii config to: {}'.format(self.config))
 
         # Check if a pin needs to be entered and do so

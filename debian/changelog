@@ -1,3 +1,12 @@
+eat-my-sms (1.1.9) unstable; urgency=medium
+
+  * Write gnokii config to a deterministic per-port path instead of leaking
+    a new random temp file on every start (crash-looping modems exhausted
+    /tmp inodes). Uses systemd RuntimeDirectory (/run/eat-my-sms/<port>)
+    when available, falling back to a fixed name in the temp dir.
+
+ -- Bram Mittendorff <brampescheck@gmail.com>  Tue, 21 Jul 2026 15:28:45 +0200
+
 eat-my-sms (0.9.0) unstable; urgency=low
 
   * Changes.

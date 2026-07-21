@@ -7,6 +7,7 @@ Wants=network-online.target
 Type=simple
 User=eat-my-sms
 Group=eat-my-sms
+RuntimeDirectory=eat-my-sms/%i
 ExecStart=/usr/bin/python3 /usr/bin/eat-my-sms.py %I
 Restart=always
 RestartSec=30
